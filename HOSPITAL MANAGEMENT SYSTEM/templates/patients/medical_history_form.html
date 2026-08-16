@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}Add Medical History{% endblock %}
+{% block header %}Add Medical History — {{ patient.full_name }}{% endblock %}
+{% block content %}
+<div class="card p-4" style="max-width:640px;">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|striptags }}</div>{% endif %}
+    <div class="row g-3">
+      <div class="col-12"><label class="form-label">Patient</label>{{ form.patient|add_class:"form-select" }}</div>
+      <div class="col-12"><label class="form-label">Doctor</label>{{ form.doctor|add_class:"form-select" }}</div>
+      <div class="col-12"><label class="form-label">Diagnosis</label>{{ form.diagnosis|add_class:"form-control" }}</div>
+      <div class="col-12"><label class="form-label">Notes</label>{{ form.notes|add_class:"form-control" }}</div>
+      <div class="col-12"><label class="form-label">Attachment (X-ray, lab report, etc.)</label>{{ form.attachment|add_class:"form-control" }}</div>
+    </div>
+    {% for field in form %}{% if field.errors %}<div class="text-danger small mt-1">{{ field.label }}: {{ field.errors|striptags }}</div>{% endif %}{% endfor %}
+    <div class="mt-4"><button class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
+    <a href="{% url 'patients:detail' patient.pk %}" class="btn btn-outline-secondary">Cancel</a></div>
+  </form>
+</div>
+{% endblock %}

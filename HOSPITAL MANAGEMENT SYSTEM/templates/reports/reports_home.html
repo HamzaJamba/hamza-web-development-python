@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block header %}Reports & Exports{% endblock %}
+{% block content %}
+<div class="card p-4 mb-4">
+  <h5 class="fw-bold mb-3">Patients</h5>
+  <a href="{% url 'reports:patients_pdf' %}" class="btn btn-outline-danger me-2"><i class="bi bi-file-earmark-pdf"></i> PDF</a>
+  <a href="{% url 'reports:patients_excel' %}" class="btn btn-outline-success"><i class="bi bi-file-earmark-excel"></i> Excel</a>
+</div>
+
+<div class="card p-4 mb-4">
+  <h5 class="fw-bold mb-3">Appointments</h5>
+  <a href="{% url 'reports:appointments_pdf' %}" class="btn btn-outline-danger me-2"><i class="bi bi-file-earmark-pdf"></i> PDF</a>
+  <a href="{% url 'reports:appointments_excel' %}" class="btn btn-outline-success"><i class="bi bi-file-earmark-excel"></i> Excel</a>
+</div>
+
+<div class="card p-4 mb-4">
+  <h5 class="fw-bold mb-3">Doctor-wise Appointments Summary</h5>
+  <a href="{% url 'reports:doctor_wise_pdf' %}" class="btn btn-outline-danger"><i class="bi bi-file-earmark-pdf"></i> PDF</a>
+</div>
+
+<div class="card p-4 mb-4">
+  <h5 class="fw-bold mb-3">Billing {% if user.role != 'ADMIN' %}<span class="badge bg-secondary">Admin only</span>{% endif %}</h5>
+  {% if user.role == 'ADMIN' %}
+  <a href="{% url 'reports:billing_pdf' %}" class="btn btn-outline-danger me-2"><i class="bi bi-file-earmark-pdf"></i> PDF</a>
+  <a href="{% url 'reports:billing_excel' %}" class="btn btn-outline-success"><i class="bi bi-file-earmark-excel"></i> Excel</a>
+  {% endif %}
+</div>
+
+<div class="card p-4">
+  <h5 class="fw-bold mb-3">Individual Patient Medical Report</h5>
+  <p class="text-muted small">Open any patient's profile and use the "Full Medical Report (PDF)" button, or search here:</p>
+  <a href="{% url 'patients:list' %}" class="btn btn-outline-primary"><i class="bi bi-people"></i> Go to Patients</a>
+</div>
+{% endblock %}

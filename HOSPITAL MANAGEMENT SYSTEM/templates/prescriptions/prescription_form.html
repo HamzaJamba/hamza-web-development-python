@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}{{ title }}{% endblock %}
+{% block header %}{{ title }}{% endblock %}
+{% block content %}
+<div class="card p-4" style="max-width:820px;">
+  <form method="post">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|striptags }}</div>{% endif %}
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-6"><label class="form-label">Patient</label>{{ form.patient|add_class:"form-select" }}</div>
+      <div class="col-md-6"><label class="form-label">Doctor</label>{{ form.doctor|add_class:"form-select" }}</div>
+      <div class="col-md-6"><label class="form-label">Appointment (optional)</label>{{ form.appointment|add_class:"form-select" }}</div>
+      <div class="col-md-6"><label class="form-label">Follow-up Date</label>{{ form.follow_up_date|add_class:"form-control" }}</div>
+      <div class="col-12"><label class="form-label">Diagnosis</label>{{ form.diagnosis|add_class:"form-control" }}</div>
+      <div class="col-12"><label class="form-label">Notes</label>{{ form.notes|add_class:"form-control" }}</div>
+    </div>
+
+    <h6 class="fw-bold text-primary mb-2">Medicines</h6>
+    {{ formset.management_form }}
+    {% if formset.non_form_errors %}<div class="alert alert-danger">{{ formset.non_form_errors }}</div>{% endif %}
+    <div id="medicine-rows">
+      {% for mform in formset %}
+      <div class="row g-2 align-items-center mb-2 medicine-row">
+        {% for hidden in mform.hidden_fields %}{{ hidden }}{% endfor %}
+        <div class="col-md-3">{{ mform.name|add_class:"form-control"|attr:"placeholder:Medicine name" }}</div>
+        <div class="col-md-2">{{ mform.dosage|add_class:"form-control"|attr:"placeholder:e.g. 1-0-1" }}</div>
+        <div class="col-md-2">{{ mform.duration|add_class:"form-control"|attr:"placeholder:e.g. 5 days" }}</div>
+        <div class="col-md-3">{{ mform.instructions|add_class:"form-control"|attr:"placeholder:e.g. after meal" }}</div>
+        <div class="col-md-2">
+          {% if mform.DELETE %}
+            <div class="form-check">{{ mform.DELETE|add_class:"form-check-input" }}<label class="form-check-label small ms-1">Remove</label></div>
+          {% endif %}
+        </div>
+      </div>
+      {% for field in mform %}{% if field.errors %}<div class="text-danger small">{{ field.label }}: {{ field.errors|striptags }}</div>{% endif %}{% endfor %}
+      {% endfor %}
+    </div>
+
+    <div class="mt-4"><button class="btn btn-primary"><i class="bi bi-check-lg"></i> Save Prescription</button>
+    <a href="{% url 'prescriptions:list' %}" class="btn btn-outline-secondary">Cancel</a></div>
+  </form>
+  <p class="text-muted small mt-3 mb-0"><i class="bi bi-info-circle"></i> Leave a row blank to skip it. Save once and edit again for more rows if needed.</p>
+</div>
+{% endblock %}

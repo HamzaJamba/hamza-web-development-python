@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Billing{% endblock %}
+{% block header %}Billing & Invoices{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <form class="d-flex gap-2" method="get">
+    <select name="status" class="form-select" onchange="this.form.submit()">
+      <option value="">All Status</option>
+      <option value="PAID" {% if status == "PAID" %}selected{% endif %}>Paid</option>
+      <option value="PARTIAL" {% if status == "PARTIAL" %}selected{% endif %}>Partial</option>
+      <option value="UNPAID" {% if status == "UNPAID" %}selected{% endif %}>Unpaid</option>
+    </select>
+  </form>
+  <a href="{% url 'billing:add' %}" class="btn btn-primary"><i class="bi bi-receipt"></i> Create Invoice</a>
+</div>
+
+<div class="card p-4">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead><tr><th>Invoice #</th><th>Patient</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Date</th><th></th></tr></thead>
+      <tbody>
+      {% for inv in page_obj %}
+        <tr>
+          <td><a href="{% url 'billing:detail' inv.pk %}" class="text-decoration-none fw-semibold">{{ inv.invoice_number }}</a></td>
+          <td>{{ inv.patient.full_name }}</td>
+          <td>Rs. {{ inv.total_amount }}</td>
+          <td>Rs. {{ inv.amount_paid }}</td>
+          <td>Rs. {{ inv.balance }}</td>
+          <td><span class="badge badge-status-{{ inv.status|lower }}">{{ inv.get_status_display }}</span></td>
+          <td>{{ inv.date }}</td>
+          <td class="text-end">
+            <a href="{% url 'billing:edit' inv.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+            <form method="post" action="{% url 'billing:delete' inv.pk %}" class="d-inline" onsubmit="return confirm('Delete this invoice?');">
+              {% csrf_token %}<button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="8" class="text-center text-muted py-4">No invoices found.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}

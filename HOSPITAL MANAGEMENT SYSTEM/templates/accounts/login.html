@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}Login{% endblock %}
+{% block guest_content %}
+<div class="wehealth-login-page">
+  <div class="wehealth-login-panel">
+    <header class="wehealth-topbar">
+      <div class="wehealth-brand">
+        <div class="wehealth-brand-mark">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span>WeHealth</span>
+      </div>
+      <button class="wehealth-lang" type="button">
+        English (EN)
+        <i class="bi bi-chevron-down"></i>
+      </button>
+    </header>
+
+    <div class="wehealth-content">
+      <div class="wehealth-login-box">
+        <h1>Sign In</h1>
+
+        {% if form.non_field_errors %}
+          <div class="wehealth-alert">{{ form.non_field_errors|striptags }}</div>
+        {% endif %}
+
+        <form method="post" class="wehealth-form">
+          {% csrf_token %}
+
+          <div class="wehealth-field">
+            <label for="id_username">Account Name</label>
+            {{ form.username|add_class:"form-control"|attr:"autofocus:true"|attr:"placeholder:Account Name" }}
+          </div>
+
+          <div class="wehealth-field">
+            <label for="id_password">Password</label>
+            {{ form.password|add_class:"form-control"|attr:"placeholder:Password" }}
+          </div>
+
+          <div class="wehealth-options">
+            <label class="wehealth-check">
+              <input type="checkbox" name="remember" checked>
+              <span>Remember me</span>
+            </label>
+            <a href="#">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="wehealth-submit">Log In</button>
+        </form>
+
+        <div class="wehealth-help">
+          <a href="#">Can't access your account?</a>
+        </div>
+      </div>
+
+      <div class="wehealth-visual" aria-hidden="true">
+        <div class="wehealth-figure-card">
+          <div class="wehealth-figure-wrap">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=80" alt="Doctor" />
+          </div>
+        </div>
+
+        <div class="wehealth-badge wehealth-badge-top">
+          <span class="wehealth-badge-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+          <div>
+            <strong>50k+ Customers</strong>
+            <small>Trusted care</small>
+          </div>
+        </div>
+
+        <div class="wehealth-callout">
+          <span class="wehealth-callout-icon"><i class="bi bi-telephone-fill"></i></span>
+          <div>
+            <strong>Connect with a Doctor</strong>
+            <small>Lorem ipsum dolor sit amet</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

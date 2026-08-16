@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Prescriptions{% endblock %}
+{% block header %}Prescriptions{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-3">
+  {% if user.role == 'ADMIN' or user.role == 'DOCTOR' %}
+  <a href="{% url 'prescriptions:add' %}" class="btn btn-primary"><i class="bi bi-file-medical"></i> New Prescription</a>
+  {% endif %}
+</div>
+
+<div class="card p-4">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead><tr><th>Date</th><th>Patient</th><th>Doctor</th><th>Diagnosis</th><th>Medicines</th><th></th></tr></thead>
+      <tbody>
+      {% for p in page_obj %}
+        <tr>
+          <td>{{ p.date }}</td>
+          <td><a href="{% url 'prescriptions:detail' p.pk %}" class="text-decoration-none fw-semibold">{{ p.patient.full_name }}</a></td>
+          <td>{{ p.doctor }}</td>
+          <td>{{ p.diagnosis|default:"-" }}</td>
+          <td>{{ p.medicines.count }} item(s)</td>
+          <td class="text-end">
+            <a href="{% url 'prescriptions:edit' p.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+            <form method="post" action="{% url 'prescriptions:delete' p.pk %}" class="d-inline" onsubmit="return confirm('Delete this prescription?');">
+              {% csrf_token %}<button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="6" class="text-center text-muted py-4">No prescriptions yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Dashboard{% endblock %} · City Care HMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+
+{% if user.is_authenticated %}
+<div class="hms-shell">
+  <aside class="hms-sidebar">
+    <div class="hms-brand">
+      <div class="hms-brand-icon"><i class="bi bi-heart-pulse-fill"></i></div>
+      <div>
+        <div class="hms-brand-name">City Care</div>
+        <div class="hms-brand-sub">Hospital Management</div>
+      </div>
+    </div>
+
+    <nav class="hms-nav">
+      <a href="{% url 'dashboard:home' %}" class="hms-nav-link {% if request.resolver_match.namespace == 'dashboard' %}active{% endif %}">
+        <i class="bi bi-grid-1x2-fill"></i> Dashboard
+      </a>
+      <a href="{% url 'doctors:list' %}" class="hms-nav-link {% if request.resolver_match.namespace == 'doctors' %}active{% endif %}">
+        <i class="bi bi-person-badge-fill"></i> Doctors
+      </a>
+      {% if user.role != 'DOCTOR' %}
+      <a href="{% url 'patients:list' %}" class="hms-nav-link {% if request.resolver_match.namespace == 'patients' %}active{% endif %}">
+        <i class="bi bi-people-fill"></i> Patients
+      </a>
+      {% endif %}
+      <a href="{% url 'appointments:list' %}" class="hms-nav-link {% if request.resolver_match.namespace == 'appointments' %}active{% endif %}">
+        <i class="bi bi-calendar-check-fill"></i> Appointments
+      </a>
+      <a href="{% url 'prescriptions:list' %}" class="hms-nav-link {% if request.resolver_match.namespace == 'prescriptions' %}active{% endif %}">
+        <i class="bi bi-file-medical-fill"></i> Prescriptions
+      </a>
+      {% if user.role != 'DOCTOR' %}
+      <a href="{% url 'billing:list' %}" class="hms-nav-link {% if request.resolver_match.namespace == 'billing' %}active{% endif %}">
+        <i class="bi bi-receipt"></i> Billing
+      </a>
+      {% endif %}
+      {% if user.role == 'ADMIN' %}
+      <a href="{% url 'accounts:staff_list' %}" class="hms-nav-link {% if request.resolver_match.namespace == 'accounts' %}active{% endif %}">
+        <i class="bi bi-person-gear"></i> Staff
+      </a>
+      {% endif %}
+      <a href="{% url 'reports:home' %}" class="hms-nav-link {% if request.resolver_match.namespace == 'reports' %}active{% endif %}">
+        <i class="bi bi-bar-chart-fill"></i> Reports
+      </a>
+    </nav>
+
+    <form method="post" action="{% url 'accounts:logout' %}" class="hms-logout">
+      {% csrf_token %}
+      <button type="submit" class="hms-nav-link w-100 text-start border-0 bg-transparent">
+        <i class="bi bi-box-arrow-left"></i> Logout
+      </button>
+    </form>
+  </aside>
+
+  <div class="hms-main">
+    <header class="hms-topbar">
+      <div class="hms-topbar-title">{% block header %}{% endblock %}</div>
+      <div class="hms-user-chip">
+        <div class="hms-user-avatar">{{ user.first_name|first|default:user.username|first|upper }}</div>
+        <div>
+          <div class="fw-semibold">{{ user.get_full_name|default:user.username }}</div>
+          <div class="text-muted small">{{ user.get_role_display }}</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="hms-content">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+{% else %}
+  {% block guest_content %}{% endblock %}
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

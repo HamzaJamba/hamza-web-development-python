@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}{{ title }}{% endblock %}
+{% block header %}{{ title }}{% endblock %}
+{% block content %}
+<div class="card p-4" style="max-width:720px;">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|striptags }}</div>{% endif %}
+    <h6 class="fw-bold text-primary mb-3">Login Account</h6>
+    <div class="row g-3 mb-3">
+      <div class="col-md-6"><label class="form-label">Username</label>{{ form.username|add_class:"form-control" }}</div>
+      <div class="col-md-6"><label class="form-label">Password</label>{{ form.password|add_class:"form-control" }}
+        {% if form.password.help_text %}<div class="form-text">{{ form.password.help_text }}</div>{% endif %}</div>
+      <div class="col-md-6"><label class="form-label">First Name</label>{{ form.first_name|add_class:"form-control" }}</div>
+      <div class="col-md-6"><label class="form-label">Last Name</label>{{ form.last_name|add_class:"form-control" }}</div>
+      <div class="col-md-6"><label class="form-label">Email</label>{{ form.email|add_class:"form-control" }}</div>
+    </div>
+    <h6 class="fw-bold text-primary mb-3">Doctor Profile</h6>
+    <div class="row g-3">
+      <div class="col-md-6"><label class="form-label">Employee ID</label>{{ form.employee_id|add_class:"form-control" }}</div>
+      <div class="col-md-6"><label class="form-label">Specialization</label>{{ form.specialization|add_class:"form-control" }}</div>
+      <div class="col-md-6"><label class="form-label">Qualification</label>{{ form.qualification|add_class:"form-control" }}</div>
+      <div class="col-md-6"><label class="form-label">Phone</label>{{ form.phone|add_class:"form-control" }}</div>
+      <div class="col-md-6"><label class="form-label">Consultation Fee</label>{{ form.consultation_fee|add_class:"form-control" }}</div>
+      <div class="col-md-6"><label class="form-label">Available Days</label>{{ form.available_days|add_class:"form-control" }}</div>
+      <div class="col-md-6"><label class="form-label">Photo</label>{{ form.photo|add_class:"form-control" }}</div>
+      <div class="col-md-6 d-flex align-items-end">
+        <div class="form-check">{{ form.is_active|add_class:"form-check-input" }}<label class="form-check-label ms-1">Active</label></div>
+      </div>
+    </div>
+    {% for field in form %}{% if field.errors %}<div class="text-danger small mt-1">{{ field.label }}: {{ field.errors|striptags }}</div>{% endif %}{% endfor %}
+    <div class="mt-4"><button class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
+    <a href="{% url 'doctors:list' %}" class="btn btn-outline-secondary">Cancel</a></div>
+  </form>
+</div>
+{% endblock %}

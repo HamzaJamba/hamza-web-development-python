@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Doctors{% endblock %}
+{% block header %}Doctors{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <form class="d-flex" method="get" style="max-width:320px;">
+    <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Search by name or specialization...">
+    <button class="btn btn-outline-primary ms-2"><i class="bi bi-search"></i></button>
+  </form>
+  {% if user.role == 'ADMIN' %}
+  <a href="{% url 'doctors:add' %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Doctor</a>
+  {% endif %}
+</div>
+
+<div class="card p-4">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead><tr><th>Employee ID</th><th>Name</th><th>Specialization</th><th>Phone</th><th>Fee</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+      {% for d in page_obj %}
+        <tr>
+          <td>{{ d.employee_id }}</td>
+          <td><a href="{% url 'doctors:detail' d.pk %}" class="text-decoration-none fw-semibold">Dr. {{ d.user.get_full_name|default:d.user.username }}</a></td>
+          <td>{{ d.specialization }}</td>
+          <td>{{ d.phone|default:"-" }}</td>
+          <td>Rs. {{ d.consultation_fee }}</td>
+          <td>
+            {% if d.is_active %}<span class="badge badge-status-completed">Active</span>
+            {% else %}<span class="badge badge-status-cancelled">Inactive</span>{% endif %}
+          </td>
+          <td class="text-end">
+            {% if user.role == 'ADMIN' %}
+            <a href="{% url 'doctors:edit' d.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+            <form method="post" action="{% url 'doctors:delete' d.pk %}" class="d-inline" onsubmit="return confirm('Remove this doctor?');">
+              {% csrf_token %}
+              <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="7" class="text-center text-muted py-4">No doctors found.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}

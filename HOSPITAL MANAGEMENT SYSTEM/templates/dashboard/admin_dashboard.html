@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block header %}Welcome back, {{ user.first_name|default:user.username }} 👋{% endblock %}
+{% block content %}
+<div class="row g-3 mb-4">
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:linear-gradient(135deg,#2563EB,#60A5FA);"><i class="bi bi-person-badge-fill"></i></div>
+      <div><div class="stat-value">{{ total_doctors }}</div><div class="stat-label">Active Doctors</div></div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:linear-gradient(135deg,#0D9488,#2DD4BF);"><i class="bi bi-people-fill"></i></div>
+      <div><div class="stat-value">{{ total_patients }}</div><div class="stat-label">Active Patients</div></div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:linear-gradient(135deg,#F59E0B,#FBBF24);"><i class="bi bi-calendar-check-fill"></i></div>
+      <div><div class="stat-value">{{ today_appointments }}</div><div class="stat-label">Today's Appointments</div></div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:linear-gradient(135deg,#E11D48,#FB7185);"><i class="bi bi-cash-coin"></i></div>
+      <div><div class="stat-value">Rs. {{ total_revenue }}</div><div class="stat-label">Total Revenue Collected</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="card p-4">
+      <h5 class="fw-bold mb-3">Recent Appointments</h5>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr></thead>
+          <tbody>
+          {% for a in recent_appointments %}
+            <tr>
+              <td>{{ a.patient.full_name }}</td>
+              <td>{{ a.doctor }}</td>
+              <td>{{ a.date }} {{ a.time }}</td>
+              <td><span class="badge badge-status-{{ a.status|lower }}">{{ a.get_status_display }}</span></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4" class="text-center text-muted py-4">No appointments yet.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="card p-4">
+      <h5 class="fw-bold mb-3">Quick Actions</h5>
+      <div class="d-grid gap-2">
+        <a href="{% url 'patients:add' %}" class="btn btn-primary"><i class="bi bi-person-plus"></i> Register Patient</a>
+        <a href="{% url 'appointments:add' %}" class="btn btn-outline-primary"><i class="bi bi-calendar-plus"></i> Book Appointment</a>
+        <a href="{% url 'doctors:add' %}" class="btn btn-outline-primary"><i class="bi bi-person-badge"></i> Add Doctor</a>
+        <a href="{% url 'billing:add' %}" class="btn btn-outline-primary"><i class="bi bi-receipt"></i> Create Invoice</a>
+      </div>
+      <hr>
+      <p class="mb-0 text-muted small"><i class="bi bi-exclamation-circle"></i> {{ pending_bills }} invoice(s) pending payment.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

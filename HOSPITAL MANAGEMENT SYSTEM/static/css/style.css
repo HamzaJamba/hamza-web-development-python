@@ -1,0 +1,558 @@
+:root {
+  --hms-primary: #2563EB;
+  --hms-primary-dark: #1D4ED8;
+  --hms-primary-light: #DBEAFE;
+  --hms-teal: #0D9488;
+  --hms-teal-light: #CCFBF1;
+  --hms-bg: #F4F7FB;
+  --hms-ink: #1E293B;
+  --hms-muted: #64748B;
+  --hms-danger: #E11D48;
+  --hms-warning: #F59E0B;
+  --hms-radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--hms-bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--hms-ink);
+}
+
+h1, h2, h3, h4, h5, h6, .fw-brand {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ---------- Shell layout ---------- */
+.hms-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.hms-sidebar {
+  width: 260px;
+  background: #fff;
+  border-right: 1px solid #E7ECF3;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.hms-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 24px;
+}
+
+.hms-brand-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--hms-primary), #60A5FA);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.3);
+  position: relative;
+}
+.hms-brand-icon::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 16px;
+  border: 2px solid rgba(37, 99, 235, 0.35);
+  animation: hmsPulseRing 2.4s ease-out infinite;
+}
+@keyframes hmsPulseRing {
+  0% { transform: scale(0.9); opacity: 1; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.hms-brand-name { font-weight: 800; font-size: 1.05rem; line-height: 1.1; }
+.hms-brand-sub { font-size: 0.72rem; color: var(--hms-muted); }
+
+.hms-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+
+.hms-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  color: var(--hms-muted);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: all .18s ease;
+}
+.hms-nav-link i { font-size: 1.05rem; width: 20px; text-align: center; }
+.hms-nav-link:hover { background: var(--hms-primary-light); color: var(--hms-primary-dark); }
+.hms-nav-link.active {
+  background: linear-gradient(135deg, var(--hms-primary), #3B82F6);
+  color: #fff;
+  box-shadow: 0 8px 16px rgba(37,99,235,0.25);
+}
+
+.hms-logout { margin-top: 12px; }
+
+.hms-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.hms-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+}
+.hms-topbar-title { font-size: 1.4rem; font-weight: 800; }
+
+.hms-user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  padding: 6px 16px 6px 6px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+.hms-user-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--hms-teal), #2DD4BF);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-weight: 800;
+}
+
+.hms-content { padding: 0 32px 40px; }
+
+/* ---------- Cards / tables ---------- */
+.card {
+  border: none;
+  border-radius: var(--hms-radius);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
+
+.stat-card {
+  border-radius: var(--hms-radius);
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.stat-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.35rem; color: #fff; flex-shrink: 0;
+}
+.stat-value { font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+.stat-label { color: var(--hms-muted); font-size: 0.85rem; }
+
+.table { margin-bottom: 0; }
+.table thead th {
+  background: var(--hms-primary-light);
+  color: var(--hms-primary-dark);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  border: none;
+  padding: 12px 14px;
+}
+.table tbody td { padding: 12px 14px; vertical-align: middle; }
+.table-hover tbody tr:hover { background: #F8FAFF; }
+
+.badge-status-scheduled { background: var(--hms-primary-light); color: var(--hms-primary-dark); }
+.badge-status-completed { background: var(--hms-teal-light); color: #0F766E; }
+.badge-status-cancelled { background: #FEE2E2; color: var(--hms-danger); }
+.badge-status-paid { background: var(--hms-teal-light); color: #0F766E; }
+.badge-status-partial { background: #FEF3C7; color: #B45309; }
+.badge-status-unpaid { background: #FEE2E2; color: var(--hms-danger); }
+
+.btn-primary {
+  background: var(--hms-primary);
+  border-color: var(--hms-primary);
+}
+.btn-primary:hover { background: var(--hms-primary-dark); border-color: var(--hms-primary-dark); }
+
+.btn-teal { background: var(--hms-teal); border-color: var(--hms-teal); color: #fff; }
+.btn-teal:hover { background: #0F766E; border-color: #0F766E; color: #fff; }
+
+/* ---------- Login page ---------- */
+.wehealth-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #4ec9d9 0%, #1aa9d5 24%, #1d88d8 100%);
+  padding: 32px;
+}
+
+.wehealth-login-panel {
+  position: relative;
+  width: min(100%, 1200px);
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 26px;
+  box-shadow: 0 28px 70px rgba(16, 41, 70, 0.18);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.wehealth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px 34px 10px;
+}
+
+.wehealth-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #1f2d3d;
+  letter-spacing: -0.04em;
+}
+
+.wehealth-brand-mark {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  transform: rotate(45deg);
+}
+
+.wehealth-brand-mark span {
+  display: block;
+  border-radius: 7px;
+}
+
+.wehealth-brand-mark span:nth-child(1) { background: #f7c863; }
+.wehealth-brand-mark span:nth-child(2) { background: #1a9edc; }
+.wehealth-brand-mark span:nth-child(3) { background: #5fd4d5; }
+.wehealth-brand-mark span:nth-child(4) { background: #f28b58; }
+
+.wehealth-lang {
+  border: none;
+  background: linear-gradient(135deg, #fbd36d, #efba57);
+  color: #1f2d3d;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(239, 186, 87, 0.38);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wehealth-content {
+  display: grid;
+  grid-template-columns: 1.02fr 1.08fr;
+  min-height: 760px;
+}
+
+.wehealth-login-box {
+  padding: 52px 62px 34px 62px;
+  background: rgba(255,255,255,0.18);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wehealth-login-box h1 {
+  font-size: 2.85rem;
+  font-weight: 800;
+  margin: 0 0 14px;
+  letter-spacing: -0.05em;
+  color: #1f2d3d;
+}
+
+.wehealth-alert {
+  background: rgba(255, 82, 82, 0.12);
+  color: #b42318;
+  border: 1px solid rgba(180, 35, 24, 0.2);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+}
+
+.wehealth-form {
+  display: grid;
+  gap: 18px;
+}
+
+.wehealth-field {
+  display: grid;
+  gap: 8px;
+}
+
+.wehealth-field label {
+  font-size: 0.82rem;
+  color: #4b5f7c;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.wehealth-field .form-control {
+  height: 54px;
+  border-radius: 13px;
+  border: 1px solid #dfe7f2;
+  background: rgba(255,255,255,0.75);
+  font-size: 1rem;
+  padding: 0 18px;
+  color: #1c2a39;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
+}
+
+.wehealth-field .form-control:focus {
+  border-color: #49b7db;
+  box-shadow: 0 0 0 4px rgba(73,183,219,0.14);
+}
+
+.wehealth-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -4px;
+  margin-bottom: 6px;
+  gap: 16px;
+  font-size: 0.85rem;
+}
+
+.wehealth-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4a5b72;
+  font-weight: 500;
+}
+
+.wehealth-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: #1b8de6;
+}
+
+.wehealth-options a,
+.wehealth-help a {
+  color: #4a5b72;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.wehealth-submit {
+  margin-top: 8px;
+  border: none;
+  border-radius: 14px;
+  height: 56px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: linear-gradient(180deg, #ffffff 0%, #eef5ff 100%);
+  color: #1d2f46;
+  box-shadow: 0 14px 30px rgba(31, 60, 109, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wehealth-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 32px rgba(31, 60, 109, 0.16);
+}
+
+.wehealth-help {
+  text-align: center;
+  margin-top: 28px;
+  font-size: 0.9rem;
+}
+
+.wehealth-visual {
+  position: relative;
+  background: linear-gradient(135deg, #1aa3d7 0%, #0d82d4 38%, #1e78d4 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.wehealth-visual::before,
+.wehealth-visual::after {
+  content: "";
+  position: absolute;
+  background: rgba(255,255,255,0.1);
+  border-radius: 28px;
+  transform: rotate(35deg);
+}
+
+.wehealth-visual::before {
+  width: 520px;
+  height: 520px;
+  top: 78px;
+  right: -80px;
+}
+
+.wehealth-visual::after {
+  width: 420px;
+  height: 420px;
+  bottom: -120px;
+  left: -120px;
+}
+
+.wehealth-figure-card {
+  position: relative;
+  width: min(68%, 470px);
+  aspect-ratio: 0.9;
+  background: linear-gradient(135deg, #f7d48f 0%, #f3c975 100%);
+  border-radius: 30% 30% 38% 38% / 26% 26% 34% 34%;
+  transform: rotate(6deg);
+  box-shadow: 0 30px 50px rgba(16, 34, 77, 0.2);
+  z-index: 1;
+}
+
+.wehealth-figure-wrap {
+  position: absolute;
+  inset: 18px 16px 0;
+  border-radius: 28% 28% 34% 34% / 20% 20% 30% 30%;
+  overflow: hidden;
+  background: #f6ecdf;
+}
+
+.wehealth-figure-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transform: scale(1.08);
+}
+
+.wehealth-badge {
+  position: absolute;
+  right: 30px;
+  bottom: 78px;
+  background: rgba(255,255,255,0.96);
+  border-radius: 18px;
+  box-shadow: 0 18px 35px rgba(11, 30, 60, 0.18);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+}
+
+.wehealth-badge strong,
+.wehealth-callout strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #1f2d3d;
+}
+
+.wehealth-badge small,
+.wehealth-callout small {
+  display: block;
+  color: #5f7389;
+  font-size: 0.73rem;
+}
+
+.wehealth-badge-icon,
+.wehealth-callout-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6dd0ff, #1a7fe1);
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.wehealth-callout {
+  position: absolute;
+  left: 34px;
+  bottom: 58px;
+  background: rgba(255,255,255,0.96);
+  border-radius: 18px;
+  box-shadow: 0 18px 35px rgba(11, 30, 60, 0.18);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+  max-width: 280px;
+}
+
+.wehealth-callout-icon {
+  background: linear-gradient(135deg, #f7d48f, #eaa72e);
+  color: #21304d;
+}
+
+@media (max-width: 900px) {
+  .wehealth-content {
+    grid-template-columns: 1fr;
+  }
+
+  .wehealth-login-box {
+    padding: 36px 24px 28px;
+  }
+
+  .wehealth-visual {
+    min-height: 420px;
+  }
+
+  .wehealth-login-panel {
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .wehealth-login-page {
+    padding: 16px;
+  }
+
+  .wehealth-topbar {
+    padding: 18px 18px 8px;
+  }
+
+  .wehealth-brand {
+    font-size: 1.45rem;
+  }
+
+  .wehealth-lang {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .wehealth-login-box h1 {
+    font-size: 2.2rem;
+  }
+
+  .wehealth-options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .wehealth-callout,
+  .wehealth-badge {
+    position: static;
+    margin: 12px auto 0;
+  }
+
+  .wehealth-visual {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 18px;
+    padding: 18px 16px 28px;
+  }
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--hms-primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
