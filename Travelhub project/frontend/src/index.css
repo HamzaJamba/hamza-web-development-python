@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  /* TravelHub brand palette */
+  --color-primary: #0f6e5c;      /* deep teal green */
+  --color-primary-dark: #0a4d40;
+  --color-accent: #e0a72e;        /* marigold gold */
+  --color-accent-dark: #b5811e;
+  --color-dark: #0d1b1a;
+  --color-light: #f7f5ef;
+}
+
+body {
+  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+  background-color: var(--color-light);
+  color: var(--color-dark);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 8px;
+}
