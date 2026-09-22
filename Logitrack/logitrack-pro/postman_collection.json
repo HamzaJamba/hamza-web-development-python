@@ -1,0 +1,353 @@
+{
+  "info": {
+    "name": "LogiTrack Pro API",
+    "description": "Enterprise Logistics & Fleet Management Platform - full API collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "access_token", "value": "" },
+    { "key": "refresh_token", "value": "" },
+    { "key": "vehicle_id", "value": "" },
+    { "key": "shipment_id", "value": "" },
+    { "key": "driver_id", "value": "" },
+    { "key": "warehouse_id", "value": "" },
+    { "key": "route_id", "value": "" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/register/", "host": ["{{base_url}}"], "path": ["api","auth","register",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@logitrack.com\",\n  \"first_name\": \"Hamza\",\n  \"last_name\": \"Admin\",\n  \"phone\": \"03001234567\",\n  \"password\": \"StrongPass123\",\n  \"password2\": \"StrongPass123\"\n}" }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": [
+              "const data = pm.response.json();",
+              "if (data.access) { pm.collectionVariables.set('access_token', data.access); }",
+              "if (data.refresh) { pm.collectionVariables.set('refresh_token', data.refresh); }"
+            ], "type": "text/javascript" }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/login/", "host": ["{{base_url}}"], "path": ["api","auth","login",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@logitrack.com\",\n  \"password\": \"StrongPass123\"\n}" }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "event": [{
+            "listen": "test",
+            "script": { "exec": [
+              "const data = pm.response.json();",
+              "if (data.access) { pm.collectionVariables.set('access_token', data.access); }"
+            ], "type": "text/javascript" }
+          }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/token/refresh/", "host": ["{{base_url}}"], "path": ["api","auth","token","refresh",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}" }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/logout/", "host": ["{{base_url}}"], "path": ["api","auth","logout",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}" }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/api/auth/profile/", "host": ["{{base_url}}"], "path": ["api","auth","profile",""] }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/profile/", "host": ["{{base_url}}"], "path": ["api","auth","profile",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"first_name\": \"Hamza Updated\"\n}" }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/change-password/", "host": ["{{base_url}}"], "path": ["api","auth","change-password",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"old_password\": \"StrongPass123\",\n  \"new_password\": \"NewStrongPass123\"\n}" }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/forgot-password/", "host": ["{{base_url}}"], "path": ["api","auth","forgot-password",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@logitrack.com\"\n}" }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/reset-password/", "host": ["{{base_url}}"], "path": ["api","auth","reset-password",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"uidb64\": \"<from-email-link>\",\n  \"token\": \"<from-email-link>\",\n  \"new_password\": \"NewStrongPass123\"\n}" }
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/verify-email/", "host": ["{{base_url}}"], "path": ["api","auth","verify-email",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"uidb64\": \"<from-email-link>\",\n  \"token\": \"<from-email-link>\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Roles & Permissions",
+      "item": [
+        { "name": "List Roles", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/roles/roles/", "host": ["{{base_url}}"], "path": ["api","roles","roles",""] } } },
+        {
+          "name": "Create Role",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/roles/roles/", "host": ["{{base_url}}"], "path": ["api","roles","roles",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"fleet_manager\",\n  \"description\": \"Manages fleet\"\n}" }
+          }
+        },
+        { "name": "List Permissions", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/roles/permissions/", "host": ["{{base_url}}"], "path": ["api","roles","permissions",""] } } },
+        {
+          "name": "Create Permission",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/roles/permissions/", "host": ["{{base_url}}"], "path": ["api","roles","permissions",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"codename\": \"shipment.create\",\n  \"description\": \"Can create shipments\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shipments",
+      "item": [
+        { "name": "List Shipments", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/shipments/", "host": ["{{base_url}}"], "path": ["api","shipments",""] } } },
+        {
+          "name": "Create Shipment",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const data = pm.response.json();",
+            "if (data.id) { pm.collectionVariables.set('shipment_id', data.id); }"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/shipments/", "host": ["{{base_url}}"], "path": ["api","shipments",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"customer_name\": \"Acme Corp\",\n  \"origin\": \"Lahore\",\n  \"destination\": \"Karachi\",\n  \"weight_kg\": \"250.00\",\n  \"priority\": \"high\"\n}" }
+          }
+        },
+        { "name": "Get Shipment", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/shipments/{{shipment_id}}/", "host": ["{{base_url}}"], "path": ["api","shipments","{{shipment_id}}",""] } } },
+        {
+          "name": "Update Shipment Status",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/shipments/{{shipment_id}}/update-status/", "host": ["{{base_url}}"], "path": ["api","shipments","{{shipment_id}}","update-status",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"in_transit\",\n  \"note\": \"Left warehouse\"\n}" }
+          }
+        },
+        { "name": "Delete Shipment", "request": { "method": "DELETE", "url": { "raw": "{{base_url}}/api/shipments/{{shipment_id}}/", "host": ["{{base_url}}"], "path": ["api","shipments","{{shipment_id}}",""] } } }
+      ]
+    },
+    {
+      "name": "Fleet",
+      "item": [
+        { "name": "List Vehicles", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/fleet/vehicles/", "host": ["{{base_url}}"], "path": ["api","fleet","vehicles",""] } } },
+        {
+          "name": "Create Vehicle",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const data = pm.response.json();",
+            "if (data.id) { pm.collectionVariables.set('vehicle_id', data.id); }"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/fleet/vehicles/", "host": ["{{base_url}}"], "path": ["api","fleet","vehicles",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"vehicle_number\": \"TRK-1001\",\n  \"truck_type\": \"truck\",\n  \"capacity_kg\": \"5000\",\n  \"fuel_type\": \"diesel\"\n}" }
+          }
+        },
+        { "name": "Get Vehicle", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/fleet/vehicles/{{vehicle_id}}/", "host": ["{{base_url}}"], "path": ["api","fleet","vehicles","{{vehicle_id}}",""] } } },
+        {
+          "name": "Add Maintenance Record",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/fleet/maintenance/", "host": ["{{base_url}}"], "path": ["api","fleet","maintenance",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"vehicle\": \"{{vehicle_id}}\",\n  \"description\": \"Oil change\",\n  \"cost\": \"50.00\",\n  \"service_date\": \"2026-09-19\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Drivers",
+      "item": [
+        { "name": "List Drivers", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/drivers/", "host": ["{{base_url}}"], "path": ["api","drivers",""] } } },
+        {
+          "name": "Create Driver",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const data = pm.response.json();",
+            "if (data.id) { pm.collectionVariables.set('driver_id', data.id); }"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/drivers/", "host": ["{{base_url}}"], "path": ["api","drivers",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"full_name\": \"Ali Khan\",\n  \"license_number\": \"LIC-001\",\n  \"license_expiry\": \"2027-01-01\",\n  \"phone\": \"03001234567\",\n  \"assigned_vehicle\": \"{{vehicle_id}}\"\n}" }
+          }
+        },
+        { "name": "Get Driver", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/drivers/{{driver_id}}/", "host": ["{{base_url}}"], "path": ["api","drivers","{{driver_id}}",""] } } }
+      ]
+    },
+    {
+      "name": "Warehouses",
+      "item": [
+        { "name": "List Warehouses", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/warehouses/", "host": ["{{base_url}}"], "path": ["api","warehouses",""] } } },
+        {
+          "name": "Create Warehouse",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const data = pm.response.json();",
+            "if (data.id) { pm.collectionVariables.set('warehouse_id', data.id); }"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/warehouses/", "host": ["{{base_url}}"], "path": ["api","warehouses",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Lahore Central\",\n  \"city\": \"Lahore\",\n  \"capacity\": 10000\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory",
+      "item": [
+        { "name": "List Inventory", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/inventory/", "host": ["{{base_url}}"], "path": ["api","inventory",""] } } },
+        {
+          "name": "Create Inventory Item",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/inventory/", "host": ["{{base_url}}"], "path": ["api","inventory",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"product_name\": \"Steel Rods\",\n  \"category\": \"Construction\",\n  \"warehouse\": \"{{warehouse_id}}\",\n  \"quantity\": 500,\n  \"minimum_stock\": 50,\n  \"maximum_stock\": 1000\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Routes",
+      "item": [
+        { "name": "List Routes", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/routes/", "host": ["{{base_url}}"], "path": ["api","routes",""] } } },
+        {
+          "name": "Create Route",
+          "event": [{ "listen": "test", "script": { "exec": [
+            "const data = pm.response.json();",
+            "if (data.id) { pm.collectionVariables.set('route_id', data.id); }"
+          ], "type": "text/javascript" } }],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/routes/", "host": ["{{base_url}}"], "path": ["api","routes",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Lahore-Karachi Highway\",\n  \"start_point\": \"Lahore\",\n  \"end_point\": \"Karachi\",\n  \"distance_km\": \"1215.00\",\n  \"estimated_time_minutes\": 960,\n  \"toll_cost\": \"1500.00\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Incidents",
+      "item": [
+        { "name": "List Incidents", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/incidents/", "host": ["{{base_url}}"], "path": ["api","incidents",""] } } },
+        {
+          "name": "Report Incident",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/incidents/", "host": ["{{base_url}}"], "path": ["api","incidents",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"incident_type\": \"vehicle_breakdown\",\n  \"vehicle\": \"{{vehicle_id}}\",\n  \"description\": \"Engine overheating on highway\",\n  \"location\": \"Multan\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        { "name": "List My Notifications", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/notifications/", "host": ["{{base_url}}"], "path": ["api","notifications",""] } } }
+      ]
+    },
+    {
+      "name": "Tracking (GPS + IoT)",
+      "item": [
+        {
+          "name": "Push GPS Log",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/tracking/gps/", "host": ["{{base_url}}"], "path": ["api","tracking","gps",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"vehicle\": \"{{vehicle_id}}\",\n  \"latitude\": \"31.520370\",\n  \"longitude\": \"74.358749\",\n  \"speed_kmh\": \"80.5\",\n  \"current_city\": \"Lahore\",\n  \"battery_percent\": 90\n}" }
+          }
+        },
+        { "name": "List GPS Logs for Vehicle", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/tracking/gps/?vehicle={{vehicle_id}}", "host": ["{{base_url}}"], "path": ["api","tracking","gps",""], "query": [{ "key": "vehicle", "value": "{{vehicle_id}}" }] } } },
+        {
+          "name": "Push IoT Reading",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/tracking/iot/", "host": ["{{base_url}}"], "path": ["api","tracking","iot",""] },
+            "body": { "mode": "raw", "raw": "{\n  \"vehicle\": \"{{vehicle_id}}\",\n  \"temperature_c\": \"12.5\",\n  \"humidity_percent\": \"55\",\n  \"fuel_level_percent\": \"70\"\n}" }
+          }
+        },
+        { "name": "List IoT Alerts", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/tracking/iot/?is_alert=true", "host": ["{{base_url}}"], "path": ["api","tracking","iot",""], "query": [{ "key": "is_alert", "value": "true" }] } } }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        { "name": "Summary Cards", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/dashboard/summary/", "host": ["{{base_url}}"], "path": ["api","dashboard","summary",""] } } },
+        { "name": "Monthly Shipments Chart", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/dashboard/charts/monthly-shipments/", "host": ["{{base_url}}"], "path": ["api","dashboard","charts","monthly-shipments",""] } } },
+        { "name": "Delivery Success Rate", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/dashboard/charts/delivery-success-rate/", "host": ["{{base_url}}"], "path": ["api","dashboard","charts","delivery-success-rate",""] } } },
+        { "name": "Vehicle Utilization", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/dashboard/charts/vehicle-utilization/", "host": ["{{base_url}}"], "path": ["api","dashboard","charts","vehicle-utilization",""] } } }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        { "name": "Shipment Report (CSV)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/reports/shipments/?format=csv&period=monthly", "host": ["{{base_url}}"], "path": ["api","reports","shipments",""], "query": [{ "key": "format", "value": "csv" }, { "key": "period", "value": "monthly" }] } } },
+        { "name": "Shipment Report (Excel)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/reports/shipments/?format=excel", "host": ["{{base_url}}"], "path": ["api","reports","shipments",""], "query": [{ "key": "format", "value": "excel" }] } } },
+        { "name": "Shipment Report (PDF)", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/reports/shipments/?format=pdf", "host": ["{{base_url}}"], "path": ["api","reports","shipments",""], "query": [{ "key": "format", "value": "pdf" }] } } },
+        { "name": "Driver Report", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/reports/drivers/?format=csv", "host": ["{{base_url}}"], "path": ["api","reports","drivers",""], "query": [{ "key": "format", "value": "csv" }] } } },
+        { "name": "Warehouse Report", "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/reports/warehouses/?format=csv", "host": ["{{base_url}}"], "path": ["api","reports","warehouses",""], "query": [{ "key": "format", "value": "csv" }] } } }
+      ]
+    }
+  ]
+}

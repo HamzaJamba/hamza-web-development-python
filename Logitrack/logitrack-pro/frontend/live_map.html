@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LogiTrack Pro — Live Fleet Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+  body { background: #0f172a; color: #e2e8f0; }
+  header {
+    background: #1e293b; padding: 14px 24px; display: flex; align-items: center;
+    justify-content: space-between; border-bottom: 1px solid #334155;
+  }
+  header h1 { font-size: 18px; color: #38bdf8; }
+  header .status { font-size: 13px; }
+  .status.connected { color: #4ade80; }
+  .status.disconnected { color: #f87171; }
+  #map { height: calc(100vh - 56px); width: 100%; }
+  .config-bar {
+    position: absolute; top: 66px; left: 16px; z-index: 1000; background: #1e293bcc;
+    padding: 10px 14px; border-radius: 8px; font-size: 13px; backdrop-filter: blur(4px);
+  }
+  .config-bar input {
+    background: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 4px 8px;
+    border-radius: 4px; width: 220px; margin-left: 6px;
+  }
+  .config-bar button {
+    background: #38bdf8; border: none; color: #0f172a; padding: 5px 12px; border-radius: 4px;
+    font-weight: 600; cursor: pointer; margin-left: 8px;
+  }
+  .leaflet-popup-content { font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🚛 LogiTrack Pro — Live Fleet Map</h1>
+  <span id="wsStatus" class="status disconnected">● Disconnected</span>
+</header>
+
+<div class="config-bar">
+  API base: <input id="apiBase" value="http://127.0.0.1:8000" />
+  Token: <input id="authToken" placeholder="paste JWT access token" />
+  <button onclick="connect()">Connect</button>
+</div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const map = L.map('map').setView([30.3753, 69.3451], 6); // Pakistan center
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const markers = {}; // vehicle_id -> L.marker
+  let ws = null;
+
+  function truckIcon() {
+    return L.divIcon({
+      html: '🚚',
+      className: 'truck-emoji-icon',
+      iconSize: [28, 28],
+    });
+  }
+
+  function upsertMarker(data) {
+    const id = data.vehicle;
+    const lat = parseFloat(data.latitude);
+    const lng = parseFloat(data.longitude);
+    const popupHtml = `
+      <b>${data.vehicle_number || id}</b><br/>
+      Speed: ${data.speed_kmh ?? '-'} km/h<br/>
+      City: ${data.current_city || '-'}<br/>
+      Battery: ${data.battery_percent ?? '-'}%<br/>
+      Updated: ${new Date(data.recorded_at).toLocaleTimeString()}
+    `;
+    if (markers[id]) {
+      markers[id].setLatLng([lat, lng]).getPopup().setContent(popupHtml);
+    } else {
+      markers[id] = L.marker([lat, lng], { icon: truckIcon() })
+        .addTo(map)
+        .bindPopup(popupHtml);
+    }
+  }
+
+  async function loadInitialVehicles(apiBase) {
+    const token = document.getElementById('authToken').value.trim();
+    try {
+      const res = await fetch(`${apiBase}/api/tracking/gps/`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      const data = await res.json();
+      const results = data.results || data;
+      results.forEach(upsertMarker);
+    } catch (e) {
+      console.warn('Could not load initial GPS logs:', e);
+    }
+  }
+
+  function connect() {
+    const apiBase = document.getElementById('apiBase').value.replace(/\/$/, '');
+    const wsBase = apiBase.replace('http', 'ws');
+
+    loadInitialVehicles(apiBase);
+
+    if (ws) ws.close();
+    ws = new WebSocket(`${wsBase}/ws/tracking/fleet/`);
+
+    ws.onopen = () => {
+      document.getElementById('wsStatus').textContent = '● Connected';
+      document.getElementById('wsStatus').className = 'status connected';
+    };
+    ws.onclose = () => {
+      document.getElementById('wsStatus').textContent = '● Disconnected';
+      document.getElementById('wsStatus').className = 'status disconnected';
+    };
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      upsertMarker(data);
+    };
+  }
+
+  // auto-connect on load
+  connect();
+</script>
+</body>
+</html>
