@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Unbounded", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+
+  --color-chalk: #F4F5F9;
+  --color-midnight: #1D1B54;
+  --color-lapis: #2C3BE6;
+  --color-lapis-dark: #1F2CB8;
+  --color-gulal: #FF5A8A;
+  --color-pistachio: #C4EA6B;
+  --color-sun: #FFC533;
+  --color-mist: #E8EAF5;
+  --color-line: #D9DBEC;
+  --color-muted: #5C5B82;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--color-chalk);
+  color: var(--color-midnight);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Keyboard focus is always visible */
+:focus-visible { outline: 3px solid var(--color-lapis); outline-offset: 3px; border-radius: 6px; }
+
+/* A price tag: pointed left edge like the paper tags hung on stall goods */
+.price-tag { clip-path: polygon(11px 0, 100% 0, 100% 100%, 11px 100%, 0 50%); }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
