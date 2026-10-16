@@ -1,0 +1,10 @@
+from .base import *  # noqa
+
+DEBUG = False
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = env.bool("SECURE_SSL_REDIRECT", default=False)  # noqa
+SESSION_COOKIE_SECURE = env.bool("COOKIE_SECURE", default=False)  # noqa
+CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
+SECURE_HSTS_SECONDS = env.int("HSTS_SECONDS", default=0)  # noqa
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"

@@ -1,0 +1,5970 @@
+{
+  "info": {
+    "_postman_id": "8ad31a0c-f1b5-4a53-b3c9-556d0cd001b9",
+    "name": "OilOps Pro API",
+    "description": "Enterprise oil & gas operations management platform.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "access_token",
+      "value": ""
+    },
+    {
+      "key": "refresh_token",
+      "value": ""
+    },
+    {
+      "key": "device_key",
+      "value": "dev-device-key"
+    }
+  ],
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "POST /api/v1/auth/change-password/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/change-password/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "change-password"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"old_password\": \"string\",\n  \"new_password\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /api/v1/auth/login/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/login/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Takes a set of user credentials and returns an access and refresh JSON web\ntoken pair to prove the authentication of those credentials.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@oilops.com\",\n  \"password\": \"OilOps@2026!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const r = pm.response.json();",
+                  "if (r.access) { pm.collectionVariables.set('access_token', r.access); pm.collectionVariables.set('refresh_token', r.refresh); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST /api/v1/auth/logout/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/logout/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "logout"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/auth/me/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/me/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "me"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "PUT /api/v1/auth/me/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/me/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "me"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"first_name\": \"string\",\n  \"last_name\": \"string\",\n  \"role\": \"ADMIN\",\n  \"phone\": \"string\",\n  \"is_active\": true,\n  \"password\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/auth/me/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/me/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "me"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"first_name\": \"string\",\n  \"last_name\": \"string\",\n  \"role\": \"ADMIN\",\n  \"phone\": \"string\",\n  \"is_active\": true,\n  \"password\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /api/v1/auth/refresh/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/refresh/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "refresh"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Takes a refresh type JSON web token and returns an access type JSON web\ntoken if the refresh token is valid.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const r = pm.response.json();",
+                  "if (r.access) { pm.collectionVariables.set('access_token', r.access); if (r.refresh) pm.collectionVariables.set('refresh_token', r.refresh); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /api/v1/auth/users/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/users/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "is_active",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "role",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "User administration (admins only). `directory` is open to staff for assignment pickers."
+          }
+        },
+        {
+          "name": "POST /api/v1/auth/users/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/users/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "users"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "User administration (admins only). `directory` is open to staff for assignment pickers.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"first_name\": \"string\",\n  \"last_name\": \"string\",\n  \"role\": \"ADMIN\",\n  \"phone\": \"string\",\n  \"is_active\": true,\n  \"password\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/auth/users/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/users/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "users",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "User administration (admins only). `directory` is open to staff for assignment pickers."
+          }
+        },
+        {
+          "name": "PUT /api/v1/auth/users/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/users/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "users",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "User administration (admins only). `directory` is open to staff for assignment pickers.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"first_name\": \"string\",\n  \"last_name\": \"string\",\n  \"role\": \"ADMIN\",\n  \"phone\": \"string\",\n  \"is_active\": true,\n  \"password\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/auth/users/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/users/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "users",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "User administration (admins only). `directory` is open to staff for assignment pickers.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"first_name\": \"string\",\n  \"last_name\": \"string\",\n  \"role\": \"ADMIN\",\n  \"phone\": \"string\",\n  \"is_active\": true,\n  \"password\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/auth/users/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/users/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "users",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "User administration (admins only). `directory` is open to staff for assignment pickers."
+          }
+        },
+        {
+          "name": "GET /api/v1/auth/users/directory/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/users/directory/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "users",
+                "directory"
+              ],
+              "query": [
+                {
+                  "key": "is_active",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "role",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "User administration (admins only). `directory` is open to staff for assignment pickers."
+          }
+        }
+      ]
+    },
+    {
+      "name": "analytics",
+      "item": [
+        {
+          "name": "GET /api/v1/analytics/downtime/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/downtime/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "analytics",
+                "downtime"
+              ],
+              "query": [
+                {
+                  "key": "months",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/analytics/employee-performance/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/employee-performance/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "analytics",
+                "employee-performance"
+              ],
+              "query": [
+                {
+                  "key": "months",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/analytics/equipment-health/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/equipment-health/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "analytics",
+                "equipment-health"
+              ],
+              "query": [
+                {
+                  "key": "months",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/analytics/incidents/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/incidents/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "analytics",
+                "incidents"
+              ],
+              "query": [
+                {
+                  "key": "months",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/analytics/inventory-usage/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/inventory-usage/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "analytics",
+                "inventory-usage"
+              ],
+              "query": [
+                {
+                  "key": "months",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/analytics/maintenance-cost/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/maintenance-cost/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "analytics",
+                "maintenance-cost"
+              ],
+              "query": [
+                {
+                  "key": "months",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/analytics/overview/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/analytics/overview/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "analytics",
+                "overview"
+              ],
+              "query": [
+                {
+                  "key": "months",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "GET /api/health/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/health/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "item": [
+        {
+          "name": "GET /api/v1/audit/logs/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audit/logs/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audit",
+                "logs"
+              ],
+              "query": [
+                {
+                  "key": "action",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "model",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "user",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/audit/logs/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/audit/logs/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "audit",
+                "logs",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "employees",
+      "item": [
+        {
+          "name": "GET /api/v1/employees/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ],
+              "query": [
+                {
+                  "key": "department",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "position",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "shift",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/employees/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employee_id\": \"string\",\n  \"first_name\": \"string\",\n  \"last_name\": \"string\",\n  \"email\": \"string\",\n  \"phone\": \"string\",\n  \"hire_date\": \"2026-01-31\",\n  \"status\": \"ACTIVE\",\n  \"photo\": \"\",\n  \"user\": 1,\n  \"department\": 1,\n  \"position\": 1,\n  \"shift\": 1,\n  \"salary_grade\": 1,\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/employees/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employee_id\": \"string\",\n  \"first_name\": \"string\",\n  \"last_name\": \"string\",\n  \"email\": \"string\",\n  \"phone\": \"string\",\n  \"hire_date\": \"2026-01-31\",\n  \"status\": \"ACTIVE\",\n  \"photo\": \"\",\n  \"user\": 1,\n  \"department\": 1,\n  \"position\": 1,\n  \"shift\": 1,\n  \"salary_grade\": 1,\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/employees/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employee_id\": \"string\",\n  \"first_name\": \"string\",\n  \"last_name\": \"string\",\n  \"email\": \"string\",\n  \"phone\": \"string\",\n  \"hire_date\": \"2026-01-31\",\n  \"status\": \"ACTIVE\",\n  \"photo\": \"\",\n  \"user\": 1,\n  \"department\": 1,\n  \"position\": 1,\n  \"shift\": 1,\n  \"salary_grade\": 1,\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/employees/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/certifications/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/certifications/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "certifications"
+              ],
+              "query": [
+                {
+                  "key": "employee",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/employees/certifications/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/certifications/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "certifications"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"issuer\": \"string\",\n  \"certificate_no\": \"string\",\n  \"issued_on\": \"2026-01-31\",\n  \"expires_on\": \"2026-01-31\",\n  \"document\": \"\",\n  \"employee\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/certifications/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/certifications/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "certifications",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/employees/certifications/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/certifications/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "certifications",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"issuer\": \"string\",\n  \"certificate_no\": \"string\",\n  \"issued_on\": \"2026-01-31\",\n  \"expires_on\": \"2026-01-31\",\n  \"document\": \"\",\n  \"employee\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/employees/certifications/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/certifications/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "certifications",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"issuer\": \"string\",\n  \"certificate_no\": \"string\",\n  \"issued_on\": \"2026-01-31\",\n  \"expires_on\": \"2026-01-31\",\n  \"document\": \"\",\n  \"employee\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/employees/certifications/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/certifications/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "certifications",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/departments/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/departments/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "departments"
+              ],
+              "query": [
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/employees/departments/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/departments/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "departments"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"code\": \"string\",\n  \"description\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/departments/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/departments/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "departments",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/employees/departments/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/departments/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "departments",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"code\": \"string\",\n  \"description\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/employees/departments/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/departments/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "departments",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"code\": \"string\",\n  \"description\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/employees/departments/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/departments/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "departments",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/positions/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/positions/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "positions"
+              ],
+              "query": [
+                {
+                  "key": "department",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/employees/positions/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/positions/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "positions"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"department\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/positions/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/positions/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "positions",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/employees/positions/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/positions/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "positions",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"department\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/employees/positions/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/positions/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "positions",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"department\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/employees/positions/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/positions/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "positions",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/salary-grades/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/salary-grades/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "salary-grades"
+              ],
+              "query": [
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/employees/salary-grades/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/salary-grades/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "salary-grades"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"min_salary\": \"string\",\n  \"max_salary\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/salary-grades/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/salary-grades/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "salary-grades",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/employees/salary-grades/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/salary-grades/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "salary-grades",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"min_salary\": \"string\",\n  \"max_salary\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/employees/salary-grades/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/salary-grades/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "salary-grades",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"min_salary\": \"string\",\n  \"max_salary\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/employees/salary-grades/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/salary-grades/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "salary-grades",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/shifts/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/shifts/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "shifts"
+              ],
+              "query": [
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/employees/shifts/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/shifts/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "shifts"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"start_time\": \"string\",\n  \"end_time\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/shifts/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/shifts/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "shifts",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/employees/shifts/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/shifts/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "shifts",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"start_time\": \"string\",\n  \"end_time\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/employees/shifts/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/shifts/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "shifts",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"start_time\": \"string\",\n  \"end_time\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/employees/shifts/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/shifts/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "shifts",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/trainings/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/trainings/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "trainings"
+              ],
+              "query": [
+                {
+                  "key": "employee",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/employees/trainings/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/trainings/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "trainings"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"provider\": \"string\",\n  \"completed_on\": \"2026-01-31\",\n  \"hours\": \"string\",\n  \"score\": 1,\n  \"employee\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/employees/trainings/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/trainings/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "trainings",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/employees/trainings/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/trainings/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "trainings",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"provider\": \"string\",\n  \"completed_on\": \"2026-01-31\",\n  \"hours\": \"string\",\n  \"score\": 1,\n  \"employee\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/employees/trainings/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/trainings/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "trainings",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"provider\": \"string\",\n  \"completed_on\": \"2026-01-31\",\n  \"hours\": \"string\",\n  \"score\": 1,\n  \"employee\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/employees/trainings/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employees/trainings/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "employees",
+                "trainings",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        }
+      ]
+    },
+    {
+      "name": "equipment",
+      "item": [
+        {
+          "name": "GET /api/v1/equipment/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/equipment/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "equipment"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "criticality",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/equipment/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/equipment/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "equipment"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"category\": \"PUMP\",\n  \"serial_number\": \"string\",\n  \"manufacturer\": \"string\",\n  \"model_number\": \"string\",\n  \"status\": \"OPERATIONAL\",\n  \"criticality\": \"LOW\",\n  \"location_note\": \"string\",\n  \"purchase_date\": \"2026-01-31\",\n  \"purchase_cost\": \"string\",\n  \"warranty_expiry\": \"2026-01-31\",\n  \"last_service_date\": \"2026-01-31\",\n  \"next_maintenance_date\": \"2026-01-31\",\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/equipment/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/equipment/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "equipment",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/equipment/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/equipment/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "equipment",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"category\": \"PUMP\",\n  \"serial_number\": \"string\",\n  \"manufacturer\": \"string\",\n  \"model_number\": \"string\",\n  \"status\": \"OPERATIONAL\",\n  \"criticality\": \"LOW\",\n  \"location_note\": \"string\",\n  \"purchase_date\": \"2026-01-31\",\n  \"purchase_cost\": \"string\",\n  \"warranty_expiry\": \"2026-01-31\",\n  \"last_service_date\": \"2026-01-31\",\n  \"next_maintenance_date\": \"2026-01-31\",\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/equipment/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/equipment/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "equipment",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"category\": \"PUMP\",\n  \"serial_number\": \"string\",\n  \"manufacturer\": \"string\",\n  \"model_number\": \"string\",\n  \"status\": \"OPERATIONAL\",\n  \"criticality\": \"LOW\",\n  \"location_note\": \"string\",\n  \"purchase_date\": \"2026-01-31\",\n  \"purchase_cost\": \"string\",\n  \"warranty_expiry\": \"2026-01-31\",\n  \"last_service_date\": \"2026-01-31\",\n  \"next_maintenance_date\": \"2026-01-31\",\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/equipment/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/equipment/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "equipment",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/equipment/{id}/work-orders/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/equipment/:id/work-orders/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "equipment",
+                ":id",
+                "work-orders"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        }
+      ]
+    },
+    {
+      "name": "incidents",
+      "item": [
+        {
+          "name": "GET /api/v1/incidents/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/incidents/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "incidents"
+              ],
+              "query": [
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "incident_type",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "severity",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/incidents/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/incidents/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "incidents"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"incident_type\": \"GAS_LEAK\",\n  \"severity\": \"MINOR\",\n  \"status\": \"REPORTED\",\n  \"occurred_at\": \"2026-01-31T09:00:00Z\",\n  \"description\": \"string\",\n  \"root_cause\": \"string\",\n  \"corrective_action\": \"string\",\n  \"injuries\": 1,\n  \"downtime_hours\": \"string\",\n  \"estimated_loss\": \"string\",\n  \"plant\": 1,\n  \"equipment\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/incidents/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/incidents/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "incidents",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/incidents/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/incidents/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "incidents",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"incident_type\": \"GAS_LEAK\",\n  \"severity\": \"MINOR\",\n  \"status\": \"REPORTED\",\n  \"occurred_at\": \"2026-01-31T09:00:00Z\",\n  \"description\": \"string\",\n  \"root_cause\": \"string\",\n  \"corrective_action\": \"string\",\n  \"injuries\": 1,\n  \"downtime_hours\": \"string\",\n  \"estimated_loss\": \"string\",\n  \"plant\": 1,\n  \"equipment\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/incidents/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/incidents/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "incidents",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"incident_type\": \"GAS_LEAK\",\n  \"severity\": \"MINOR\",\n  \"status\": \"REPORTED\",\n  \"occurred_at\": \"2026-01-31T09:00:00Z\",\n  \"description\": \"string\",\n  \"root_cause\": \"string\",\n  \"corrective_action\": \"string\",\n  \"injuries\": 1,\n  \"downtime_hours\": \"string\",\n  \"estimated_loss\": \"string\",\n  \"plant\": 1,\n  \"equipment\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/incidents/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/incidents/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "incidents",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/incidents/{id}/attachments/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/incidents/:id/attachments/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "incidents",
+                ":id",
+                "attachments"
+              ],
+              "query": [
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "incident_type",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "severity",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/incidents/{id}/attachments/",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/incidents/:id/attachments/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "incidents",
+                ":id",
+                "attachments"
+              ],
+              "query": [
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "incident_type",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "severity",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "value": ""
+                },
+                {
+                  "key": "description",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/incidents/attachments/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/incidents/attachments/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "incidents",
+                "attachments",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        }
+      ]
+    },
+    {
+      "name": "inventory",
+      "item": [
+        {
+          "name": "GET /api/v1/inventory/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "is_active",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/inventory/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"string\",\n  \"name\": \"string\",\n  \"category\": \"SPARE_PART\",\n  \"unit\": \"string\",\n  \"quantity\": \"string\",\n  \"reorder_level\": \"string\",\n  \"unit_cost\": \"string\",\n  \"location\": \"string\",\n  \"supplier\": \"string\",\n  \"is_active\": true,\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/inventory/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/inventory/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"string\",\n  \"name\": \"string\",\n  \"category\": \"SPARE_PART\",\n  \"unit\": \"string\",\n  \"quantity\": \"string\",\n  \"reorder_level\": \"string\",\n  \"unit_cost\": \"string\",\n  \"location\": \"string\",\n  \"supplier\": \"string\",\n  \"is_active\": true,\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/inventory/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"string\",\n  \"name\": \"string\",\n  \"category\": \"SPARE_PART\",\n  \"unit\": \"string\",\n  \"quantity\": \"string\",\n  \"reorder_level\": \"string\",\n  \"unit_cost\": \"string\",\n  \"location\": \"string\",\n  \"supplier\": \"string\",\n  \"is_active\": true,\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/inventory/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/inventory/{id}/adjust/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/:id/adjust/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory",
+                ":id",
+                "adjust"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movement_type\": \"IN\",\n  \"quantity\": \"string\",\n  \"reference\": \"string\",\n  \"notes\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/inventory/low-stock/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/low-stock/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory",
+                "low-stock"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/inventory/movements/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/movements/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory",
+                "movements"
+              ],
+              "query": [
+                {
+                  "key": "item",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "item__category",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "movement_type",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/inventory/movements/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/movements/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inventory",
+                "movements",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "maintenance",
+      "item": [
+        {
+          "name": "GET /api/v1/maintenance/schedules/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/maintenance/schedules/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "maintenance",
+                "schedules"
+              ],
+              "query": [
+                {
+                  "key": "auto_create_work_order",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "equipment__plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "is_active",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/maintenance/schedules/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/maintenance/schedules/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "maintenance",
+                "schedules"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"interval_days\": 1,\n  \"last_performed\": \"2026-01-31\",\n  \"next_due\": \"2026-01-31\",\n  \"estimated_hours\": \"string\",\n  \"auto_create_work_order\": true,\n  \"is_active\": true,\n  \"equipment\": 1,\n  \"assigned_engineer\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/maintenance/schedules/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/maintenance/schedules/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "maintenance",
+                "schedules",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/maintenance/schedules/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/maintenance/schedules/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "maintenance",
+                "schedules",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"interval_days\": 1,\n  \"last_performed\": \"2026-01-31\",\n  \"next_due\": \"2026-01-31\",\n  \"estimated_hours\": \"string\",\n  \"auto_create_work_order\": true,\n  \"is_active\": true,\n  \"equipment\": 1,\n  \"assigned_engineer\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/maintenance/schedules/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/maintenance/schedules/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "maintenance",
+                "schedules",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"interval_days\": 1,\n  \"last_performed\": \"2026-01-31\",\n  \"next_due\": \"2026-01-31\",\n  \"estimated_hours\": \"string\",\n  \"auto_create_work_order\": true,\n  \"is_active\": true,\n  \"equipment\": 1,\n  \"assigned_engineer\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/maintenance/schedules/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/maintenance/schedules/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "maintenance",
+                "schedules",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/maintenance/schedules/due/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/maintenance/schedules/due/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "maintenance",
+                "schedules",
+                "due"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/maintenance/schedules/generate-work-orders/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/maintenance/schedules/generate-work-orders/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "maintenance",
+                "schedules",
+                "generate-work-orders"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"interval_days\": 1,\n  \"last_performed\": \"2026-01-31\",\n  \"next_due\": \"2026-01-31\",\n  \"estimated_hours\": \"string\",\n  \"auto_create_work_order\": true,\n  \"is_active\": true,\n  \"equipment\": 1,\n  \"assigned_engineer\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "monitoring",
+      "item": [
+        {
+          "name": "GET /api/v1/monitoring/alerts/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/alerts/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "alerts"
+              ],
+              "query": [
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "equipment__plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "metric",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "severity",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/monitoring/alerts/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/alerts/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "alerts",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "POST /api/v1/monitoring/alerts/{id}/acknowledge/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/alerts/:id/acknowledge/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "alerts",
+                ":id",
+                "acknowledge"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metric\": \"TEMPERATURE\",\n  \"severity\": \"WARNING\",\n  \"status\": \"OPEN\",\n  \"value\": 1.5,\n  \"message\": \"string\",\n  \"occurrence_count\": 1,\n  \"acknowledged_at\": \"2026-01-31T09:00:00Z\",\n  \"resolved_at\": \"2026-01-31T09:00:00Z\",\n  \"equipment\": 1,\n  \"threshold\": 1,\n  \"acknowledged_by\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /api/v1/monitoring/alerts/{id}/resolve/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/alerts/:id/resolve/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "alerts",
+                ":id",
+                "resolve"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metric\": \"TEMPERATURE\",\n  \"severity\": \"WARNING\",\n  \"status\": \"OPEN\",\n  \"value\": 1.5,\n  \"message\": \"string\",\n  \"occurrence_count\": 1,\n  \"acknowledged_at\": \"2026-01-31T09:00:00Z\",\n  \"resolved_at\": \"2026-01-31T09:00:00Z\",\n  \"equipment\": 1,\n  \"threshold\": 1,\n  \"acknowledged_by\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/monitoring/readings/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/readings/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "readings"
+              ],
+              "query": [
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "metric",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "since",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "until",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Telemetry ingest (JWT or X-Device-Key; single object or list) and queries."
+          }
+        },
+        {
+          "name": "POST /api/v1/monitoring/readings/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/readings/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "readings"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Telemetry ingest (JWT or X-Device-Key; single object or list) and queries.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"equipment\": 1,\n  \"metric\": \"TEMPERATURE\",\n  \"value\": 1.5,\n  \"recorded_at\": \"2026-01-31T09:00:00Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/monitoring/readings/latest/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/readings/latest/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "readings",
+                "latest"
+              ],
+              "query": [
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Latest value per metric for one equipment, with state vs thresholds."
+          }
+        },
+        {
+          "name": "GET /api/v1/monitoring/readings/series/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/readings/series/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "readings",
+                "series"
+              ],
+              "query": [
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "hours",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "metric",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Telemetry ingest (JWT or X-Device-Key; single object or list) and queries."
+          }
+        },
+        {
+          "name": "GET /api/v1/monitoring/thresholds/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/thresholds/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "thresholds"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "is_active",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "metric",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "severity",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/monitoring/thresholds/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/thresholds/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "thresholds"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category\": \"string\",\n  \"metric\": \"TEMPERATURE\",\n  \"min_value\": 1.5,\n  \"max_value\": 1.5,\n  \"severity\": \"WARNING\",\n  \"is_active\": true,\n  \"equipment\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/monitoring/thresholds/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/thresholds/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "thresholds",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/monitoring/thresholds/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/thresholds/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "thresholds",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category\": \"string\",\n  \"metric\": \"TEMPERATURE\",\n  \"min_value\": 1.5,\n  \"max_value\": 1.5,\n  \"severity\": \"WARNING\",\n  \"is_active\": true,\n  \"equipment\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/monitoring/thresholds/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/thresholds/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "thresholds",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category\": \"string\",\n  \"metric\": \"TEMPERATURE\",\n  \"min_value\": 1.5,\n  \"max_value\": 1.5,\n  \"severity\": \"WARNING\",\n  \"is_active\": true,\n  \"equipment\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/monitoring/thresholds/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/monitoring/thresholds/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "monitoring",
+                "thresholds",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        }
+      ]
+    },
+    {
+      "name": "notifications",
+      "item": [
+        {
+          "name": "GET /api/v1/notifications/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "notifications"
+              ],
+              "query": [
+                {
+                  "key": "is_read",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "kind",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "severity",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/notifications/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "DELETE /api/v1/notifications/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "POST /api/v1/notifications/{id}/read/",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/:id/read/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                ":id",
+                "read"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "POST /api/v1/notifications/read-all/",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/read-all/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                "read-all"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/notifications/unread-count/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/unread-count/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "notifications",
+                "unread-count"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "plants",
+      "item": [
+        {
+          "name": "GET /api/v1/plants/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants"
+              ],
+              "query": [
+                {
+                  "key": "city",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant_type",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/plants/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"code\": \"string\",\n  \"plant_type\": \"PLANT\",\n  \"status\": \"OPERATIONAL\",\n  \"address\": \"string\",\n  \"city\": \"string\",\n  \"latitude\": \"string\",\n  \"longitude\": \"string\",\n  \"capacity_bpd\": 1,\n  \"commissioned_on\": \"2026-01-31\",\n  \"manager\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/plants/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/plants/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"code\": \"string\",\n  \"plant_type\": \"PLANT\",\n  \"status\": \"OPERATIONAL\",\n  \"address\": \"string\",\n  \"city\": \"string\",\n  \"latitude\": \"string\",\n  \"longitude\": \"string\",\n  \"capacity_bpd\": 1,\n  \"commissioned_on\": \"2026-01-31\",\n  \"manager\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/plants/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"code\": \"string\",\n  \"plant_type\": \"PLANT\",\n  \"status\": \"OPERATIONAL\",\n  \"address\": \"string\",\n  \"city\": \"string\",\n  \"latitude\": \"string\",\n  \"longitude\": \"string\",\n  \"capacity_bpd\": 1,\n  \"commissioned_on\": \"2026-01-31\",\n  \"manager\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/plants/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/plants/pipelines/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/pipelines/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "pipelines"
+              ],
+              "query": [
+                {
+                  "key": "destination",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "origin",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/plants/pipelines/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/pipelines/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "pipelines"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"code\": \"string\",\n  \"product\": \"string\",\n  \"length_km\": \"string\",\n  \"diameter_inch\": \"string\",\n  \"max_pressure_bar\": \"string\",\n  \"status\": \"ACTIVE\",\n  \"origin\": 1,\n  \"destination\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/plants/pipelines/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/pipelines/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "pipelines",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/plants/pipelines/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/pipelines/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "pipelines",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"code\": \"string\",\n  \"product\": \"string\",\n  \"length_km\": \"string\",\n  \"diameter_inch\": \"string\",\n  \"max_pressure_bar\": \"string\",\n  \"status\": \"ACTIVE\",\n  \"origin\": 1,\n  \"destination\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/plants/pipelines/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/pipelines/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "pipelines",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"string\",\n  \"code\": \"string\",\n  \"product\": \"string\",\n  \"length_km\": \"string\",\n  \"diameter_inch\": \"string\",\n  \"max_pressure_bar\": \"string\",\n  \"status\": \"ACTIVE\",\n  \"origin\": 1,\n  \"destination\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/plants/pipelines/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/pipelines/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "pipelines",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "GET /api/v1/plants/tanks/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/tanks/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "tanks"
+              ],
+              "query": [
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "product",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/plants/tanks/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/tanks/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "tanks"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag\": \"string\",\n  \"product\": \"CRUDE\",\n  \"capacity_litres\": \"string\",\n  \"current_level_litres\": \"string\",\n  \"status\": \"IN_SERVICE\",\n  \"last_inspection\": \"2026-01-31\",\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/plants/tanks/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/tanks/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "tanks",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/plants/tanks/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/tanks/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "tanks",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag\": \"string\",\n  \"product\": \"CRUDE\",\n  \"capacity_litres\": \"string\",\n  \"current_level_litres\": \"string\",\n  \"status\": \"IN_SERVICE\",\n  \"last_inspection\": \"2026-01-31\",\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/plants/tanks/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/tanks/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "tanks",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag\": \"string\",\n  \"product\": \"CRUDE\",\n  \"capacity_litres\": \"string\",\n  \"current_level_litres\": \"string\",\n  \"status\": \"IN_SERVICE\",\n  \"last_inspection\": \"2026-01-31\",\n  \"plant\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/plants/tanks/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plants/tanks/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants",
+                "tanks",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        }
+      ]
+    },
+    {
+      "name": "reports",
+      "item": [
+        {
+          "name": "GET /api/v1/reports/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reports/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "reports"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": ""
+          }
+        },
+        {
+          "name": "GET /api/v1/reports/{name}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/reports/:name/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "reports",
+                ":name"
+              ],
+              "query": [
+                {
+                  "key": "date_from",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "date_to",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "export",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "month",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": [
+                {
+                  "key": "name",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "work-orders",
+      "item": [
+        {
+          "name": "GET /api/v1/work-orders/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders"
+              ],
+              "query": [
+                {
+                  "key": "assigned_to_me",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "deadline_before",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "engineer",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "equipment",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "overdue",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "page_size",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "plant",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "priority",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "technician",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "wo_type",
+                  "value": "",
+                  "disabled": true
+                }
+              ],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/work-orders/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"technicians\": [\n    1\n  ],\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"wo_type\": \"PREVENTIVE\",\n  \"priority\": \"LOW\",\n  \"deadline\": \"2026-01-31T09:00:00Z\",\n  \"estimated_hours\": \"string\",\n  \"labor_rate\": \"string\",\n  \"equipment\": 1,\n  \"engineer\": 1,\n  \"schedule\": 1,\n  \"incident\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "GET /api/v1/work-orders/{id}/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "PUT /api/v1/work-orders/{id}/",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"technicians\": [\n    1\n  ],\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"wo_type\": \"PREVENTIVE\",\n  \"priority\": \"LOW\",\n  \"deadline\": \"2026-01-31T09:00:00Z\",\n  \"estimated_hours\": \"string\",\n  \"labor_rate\": \"string\",\n  \"equipment\": 1,\n  \"engineer\": 1,\n  \"schedule\": 1,\n  \"incident\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/v1/work-orders/{id}/",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"technicians\": [\n    1\n  ],\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"wo_type\": \"PREVENTIVE\",\n  \"priority\": \"LOW\",\n  \"deadline\": \"2026-01-31T09:00:00Z\",\n  \"estimated_hours\": \"string\",\n  \"labor_rate\": \"string\",\n  \"equipment\": 1,\n  \"engineer\": 1,\n  \"schedule\": 1,\n  \"incident\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/v1/work-orders/{id}/",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        },
+        {
+          "name": "POST /api/v1/work-orders/{id}/assign/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/assign/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id",
+                "assign"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"engineer\": 1,\n  \"technicians\": [\n    1\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /api/v1/work-orders/{id}/cancel/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/cancel/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id",
+                "cancel"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /api/v1/work-orders/{id}/complete/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/complete/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id",
+                "complete"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completion_notes\": \"string\",\n  \"labor_hours\": \"string\",\n  \"downtime_hours\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /api/v1/work-orders/{id}/hold/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/hold/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id",
+                "hold"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /api/v1/work-orders/{id}/parts/",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/parts/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id",
+                "parts"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"item\": 1,\n  \"quantity\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "POST /api/v1/work-orders/{id}/start/",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/work-orders/:id/start/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "work-orders",
+                ":id",
+                "start"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "Add to a ModelViewSet to write create/update/delete entries to the audit log."
+          }
+        }
+      ]
+    }
+  ]
+}

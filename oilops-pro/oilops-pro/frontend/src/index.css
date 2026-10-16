@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Barlow Semi Condensed", "Barlow", ui-sans-serif, sans-serif;
+  --color-ink-950: #0a1a1d;
+  --color-ink-900: #0f2a2e;
+  --color-ink-800: #16393e;
+  --color-ink-700: #1f4c52;
+  --color-ink-600: #2c6068;
+  --color-paper: #edf0f0;
+  --color-line: #d5dcdd;
+  --color-signal: #e4572e;
+  --color-signal-dark: #c2411c;
+  --color-gauge: #1f7a8c;
+  --color-ok: #2f855a;
+  --color-warn: #c98a12;
+  --color-crit: #c53030;
+}
+
+html, body, #root { height: 100%; }
+body { background: var(--color-paper); color: #14282b; font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: 0.005em; }
+
+/* Hi-vis hazard chevrons: the one deliberate flourish (login + sidebar brand) */
+.hazard { background: repeating-linear-gradient(-45deg, var(--color-signal) 0 9px, var(--color-ink-900) 9px 18px); }
+
+:focus-visible { outline: 2px solid var(--color-gauge); outline-offset: 2px; }
+.leaflet-container { font-family: var(--font-sans); border-radius: 6px; z-index: 0; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

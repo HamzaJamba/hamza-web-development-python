@@ -1,0 +1,70 @@
+# Production-like stack: Postgres, Redis, Gunicorn API, Celery worker + beat, Nginx (SPA + reverse proxy)
+#   docker compose up --build -d
+#   docker compose exec backend python manage.py seed_demo
+name: oilops-pro
+
+x-backend: &backend
+  build: ./backend
+  env_file: .env
+  depends_on:
+    db: { condition: service_healthy }
+    redis: { condition: service_healthy }
+  volumes:
+    - media:/app/media
+
+services:
+  db:
+    image: postgres:16-alpine
+    env_file: .env
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: [redisdata:/data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    <<: *backend
+    restart: unless-stopped
+    expose: ["8000"]
+
+  celery:
+    <<: *backend
+    command: celery -A config worker -l info --concurrency 2
+    environment: { RUN_MIGRATIONS: "0" }
+    restart: unless-stopped
+
+  beat:
+    <<: *backend
+    command: celery -A config beat -l info
+    environment: { RUN_MIGRATIONS: "0" }
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+      args: { VITE_API_URL: /api/v1 }
+    environment:
+      API_UPSTREAM: http://backend:8000
+    ports: ["8080:80"]
+    volumes:
+      - media:/var/www/media:ro
+    depends_on: [backend]
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:
+  media:
